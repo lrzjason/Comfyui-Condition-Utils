@@ -8,7 +8,7 @@ condition_dir  = os.path.join(folder_paths.models_dir, "conditions")
 
 # Register the condition directory with folder_paths if not already registered
 if "conditions" not in folder_paths.folder_names_and_paths:
-    folder_paths.folder_names_and_paths["conditions"] = ([condition_dir], {'.pt'})
+    folder_paths.folder_names_and_paths["conditions"] = ([condition_dir], {'.ckpt'})
 
 class SaveCondition:
     """
@@ -35,8 +35,8 @@ class SaveCondition:
         
         # Sanitize filename (remove any path traversal attempts)
         safe_filename = os.path.basename(filename)
-        if not safe_filename.endswith(".pt"):
-            safe_filename += ".pt"
+        if not safe_filename.endswith(".ckpt"):
+            safe_filename += ".ckpt"
         
         # Get the condition directory from folder_paths
         save_dir = folder_paths.folder_names_and_paths["conditions"][0][0]
@@ -74,9 +74,9 @@ class LoadCondition:
         # Get list of available condition files using folder_paths
         condition_files = []
         try:
-            # Get the list of files with .pt extension
+            # Get the list of files with .ckpt extension
             condition_files = folder_paths.get_filename_list("conditions")
-            # Remove .pt extension for display
+            # Remove .ckpt extension for display
             condition_files = [os.path.splitext(file)[0] for file in condition_files]
         except Exception as e:
             print(f"Error listing condition files: {e}")
@@ -101,8 +101,8 @@ class LoadCondition:
         
         # Sanitize filename (remove any path traversal attempts)
         safe_filename = os.path.basename(filename)
-        if not safe_filename.endswith(".pt"):
-            safe_filename += ".pt"
+        if not safe_filename.endswith(".ckpt"):
+            safe_filename += ".ckpt"
         
         # Get the condition directory from folder_paths
         load_dir = folder_paths.folder_names_and_paths["conditions"][0][0]
@@ -137,9 +137,9 @@ class LoadConditionFromLoras:
         # Get list of available condition files using folder_paths
         condition_files = []
         try:
-            # Get the list of files with .pt extension
+            # Get the list of files with .ckpt extension
             condition_files = folder_paths.get_filename_list("loras")
-            # Remove .pt extension for display
+            # Remove .ckpt extension for display
             condition_files = [os.path.splitext(file)[0] for file in condition_files]
         except Exception as e:
             print(f"Error listing condition files: {e}")
@@ -164,8 +164,8 @@ class LoadConditionFromLoras:
         
         # Sanitize filename (remove any path traversal attempts)
         safe_filename = os.path.basename(filename)
-        if not safe_filename.endswith(".pt"):
-            safe_filename += ".pt"
+        if not safe_filename.endswith(".ckpt"):
+            safe_filename += ".ckpt"
         
         # Get the condition directory from folder_paths
         load_dir = folder_paths.folder_names_and_paths["conditions"][0][0]
