@@ -11,7 +11,7 @@ This node allows you to save a condition tensor to a file with a specified filen
 #### Inputs
 
 - **condition**: The `CONDITIONING` tensor to save.
-- **filename**: The name to use for the saved file (e.g., `my_condition`). The `.pt` extension will be added automatically if not provided.
+- **filename**: The name to use for the saved file (e.g., `my_condition`). The `.safetensors` extension will be added automatically if not provided.
 
 #### Behavior
 
@@ -26,7 +26,7 @@ This node allows you to load a previously saved condition tensor from a file.
 
 #### Inputs
 
-- **filename**: A dropdown list of available `.pt` files (displayed without the extension) found in the `ComfyUI/models/conditions` directory. Select the desired condition file to load.
+- **filename**: A dropdown list of available `.safetensors` files (displayed without the extension) found in the `ComfyUI/models/conditions` directory. Select the desired condition file to load.
 
 #### Outputs
 
@@ -44,7 +44,7 @@ This node allows you to load a previously saved condition tensor from a file.
 - **Dynamic File Loading**: The `Load Condition` node now dynamically lists available condition files from the `conditions` directory, providing a user-friendly dropdown menu.
 - **Automatic Directory Creation**: Both nodes automatically create the `conditions` directory if it doesn't exist.
 - **Filename Sanitization**: Ensures safe file handling.
-- **Automatic `.pt` Extension**: The `.pt` extension is handled automatically for both saving and loading.
+- **Automatic `.safetensors` Extension**: The `.safetensors` extension is handled automatically for both saving and loading.
 
 ## Installation
 
