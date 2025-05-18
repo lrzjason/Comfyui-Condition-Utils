@@ -8,7 +8,7 @@ condition_dir  = os.path.join(folder_paths.models_dir, "conditions")
 
 # Register the condition directory with folder_paths if not already registered
 if "conditions" not in folder_paths.folder_names_and_paths:
-    folder_paths.folder_names_and_paths["conditions"] = ([condition_dir], {'.pt'})
+    folder_paths.folder_names_and_paths["conditions"] = ([condition_dir], {'.safetensors'})
 
 class SaveCondition:
     """
@@ -35,8 +35,8 @@ class SaveCondition:
         
         # Sanitize filename (remove any path traversal attempts)
         safe_filename = os.path.basename(filename)
-        if not safe_filename.endswith(".pt"):
-            safe_filename += ".pt"
+        if not safe_filename.endswith(".safetensors"):
+            safe_filename += ".safetensors"
         
         # Get the condition directory from folder_paths
         save_dir = folder_paths.folder_names_and_paths["conditions"][0][0]
@@ -53,7 +53,8 @@ class SaveCondition:
                 tensors_to_save.append((cond.clone(), cond_info))
             
             # Save the tensors
-            torch.save(tensors_to_save, save_path)
+            from safetensors.torch import save_file
+            save_file({str(i): t for i, (t, _) in enumerate(tensors_to_save)}, save_path)
             print(f"Condition tensor saved to {save_path}")
         except Exception as e:
             print(f"Error saving condition tensor: {e}")
@@ -101,8 +102,8 @@ class LoadCondition:
         
         # Sanitize filename (remove any path traversal attempts)
         safe_filename = os.path.basename(filename)
-        if not safe_filename.endswith(".pt"):
-            safe_filename += ".pt"
+        if not safe_filename.endswith(".safetensors"):
+            safe_filename += ".safetensors"
         
         # Get the condition directory from folder_paths
         load_dir = folder_paths.folder_names_and_paths["conditions"][0][0]
@@ -116,9 +117,11 @@ class LoadCondition:
                 raise FileNotFoundError(f"Condition file not found: {load_path}")
                 
             # Load the tensors
-            loaded_tensors = torch.load(load_path)
+            from safetensors.torch import load_file
+            loaded = load_file(load_path)
+            tensors = [(v, {}) for v in loaded.values()]
             print(f"Condition tensor loaded from {load_path}")
-            return (loaded_tensors,)
+            return (tensors,)
         except Exception as e:
             print(f"Error loading condition tensor: {e}")
             # Return an empty conditioning as fallback
